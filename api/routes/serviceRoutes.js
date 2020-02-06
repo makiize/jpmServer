@@ -16,7 +16,7 @@ router.post("/", (req, res, next) => {
     serDetail: serDetail,
     tool: tool,
     status: status,
-    date: Date.now()
+    serDate: Date.now()
   });
 
   if (

@@ -5,31 +5,37 @@ const billCollection = require("../models/billModels");
 
 router.post("/", (req, res, next) => {
   var _id = new mongoose.Types.ObjectId();
-  var name = req.body.name;
-  var phone = req.body.phone;
-  var adminData = new billCollection({
+  var house = req.body.house;
+  var firstName = req.body.firstName;
+  var lastName = req.body.lastName;
+  var bill = req.body.bill;
+  var billData = new billCollection({
     _id: _id,
-    name: name,
-    phone: phone,
-    
-  });
+    house: house,
+    firstName: firstName,
+    lastName: lastName,
+    bill: bill,
+    date: Date.now()
+      });
 
   if (
-    name == undefined ||
-    phone == undefined
+    house == undefined ||
+    firstName == undefined ||
+    lastName == undefined ||
+    bill == undefined
   ) {
-    res.status(400).send("please defind all information");
+    res.status(400).send("please defind all bill");
   } else {
-    adminCollection
+    billCollection
       .find()
       .exec()
       .then(docs => {
-        adminData.save();
-        res.status(200).send("Create User Successfully");
+        billData.save();
+        res.status(200).send("Create bill Successfully");
       });
   }
 });
-
+/* 
 exports.saveMedia = (req, res) => {
         const storage = multer.diskStorage({
             destination: (req, file, callback) => {
@@ -57,22 +63,22 @@ exports.saveMedia = (req, res) => {
             });
             res.status(200).json(results);
         });
-}
+} */
 
 router.get("/", (req, res, next) => {
-  var adminid = req.query.adminid;
-  console.log(adminid);
-  if (adminid == undefined) {
-    adminCollection
+  var billid = req.query.billid;
+  console.log(billid);
+  if (billid == undefined) {
+    billCollection
       .find()
       .exec()
       .then(docs => {
         res.status(200).send(docs);
       });
   } else {
-    adminCollection.find({ _id: adminid }, (err, docs) => {
+    billCollection.find({ _id: billid }, (err, docs) => {
       if (docs == null || docs == "") {
-        res.status(404).send("admin not fond");
+        res.status(404).send("bill not fond");
       } else {
         res.status(200).send(docs);
       }
@@ -80,16 +86,20 @@ router.get("/", (req, res, next) => {
   }
 });
 
-router.put("/:adminid", (req, res, next) => {
-  var adminid = req.params.adminid;
-  var name = req.body.name;
-  var phone = req.body.phone;
-  adminCollection.findOneAndUpdate(
-    { _id: adminid },
+router.put("/:billid", (req, res, next) => {
+  var billid = req.params.billid;
+  var house = req.body.house;
+  var firstName = req.body.firstName;
+  var lastName = req.body.lastName;
+  var bill = req.body.bill;
+  billCollection.findOneAndUpdate(
+    { _id: billid },
     {
       $set: {
-        name: name,
-        phone: phone
+        house: house,
+        firstName: firstName,
+        lastName: lastName,
+        bill: bill
       }
     },
     (err, docs) => {
@@ -102,9 +112,9 @@ router.put("/:adminid", (req, res, next) => {
   );
 });
 
-router.delete("/:adminid", (req, res, next) => {
-  var adminid = req.params.adminid;
-  adminCollection.deleteOne({ _id: adminid }, (err, docs) => {
+router.delete("/:billid", (req, res, next) => {
+  var billid = req.params.billid;
+  billCollection.deleteOne({ _id: billid }, (err, docs) => {
     if (err) {
       res.send(err.message);
     } else {
