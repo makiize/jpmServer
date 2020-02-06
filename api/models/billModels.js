@@ -6,6 +6,7 @@ var billSchema = new Schema({
   firstName: String,
   lastName: String,
   bill: String,
+  by: String,
   date: Date
 });
 module.exports = mongoose.model("bill", billSchema);
