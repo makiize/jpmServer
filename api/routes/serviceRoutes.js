@@ -6,21 +6,24 @@ const serviceCollection = require("../models/serviceModels");
 router.post("/", (req, res, next) => {
   var _id = new mongoose.Types.ObjectId();
   var serTopic = req.body.serTopic;
+  var tool = req.body.tool;
   var serDetail = req.body.serDetail;
-  var near = req.body.near;
+  var status = req.body.status;
 
   var serviceData = new serviceCollection({
     _id: _id,
     serTopic: serTopic,
     serDetail: serDetail,
-    near: near,
+    tool: tool,
+    status: status,
     date: Date.now()
   });
 
   if (
     serTopic == undefined ||
     serDetail == undefined ||
-    near == undefined
+    tool == undefined ||
+    status == undefined
   ) {
     res.status(400).send("please defind all service");
   } else {
@@ -59,14 +62,16 @@ router.put("/:serid", (req, res, next) => {
   var serid = req.params.serid;
   var serTopic = req.body.serTopic;
   var serDetail = req.body.serDetail;
-  var near = req.body.near;
+  var tool = req.body.tool;
+  var status = req.body.status;
   serviceCollection.findOneAndUpdate(
     { _id: serid },
     {
       $set: {
         serTopic: serTopic,
         serDetail: serDetail,
-        near: near
+        tool: tool,
+        status: status
       }
     },
     (err, docs) => {

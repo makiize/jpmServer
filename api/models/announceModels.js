@@ -4,7 +4,6 @@ var announceSchema = new Schema({
     _id: String,
     topic: String,
     detail: String,
-    file: String,
     img : String,
     date: Date
 });

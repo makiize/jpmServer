@@ -8,6 +8,7 @@ const announceRoutes = require("./api/routes/announceRoutes");
 const adminRoutes = require("./api/routes/adminRoutes");
 const serviceRoutes = require("./api/routes/serviceRoutes");
 const uploadRoutes = require("./api/routes/uploadRoutes"); 
+const billRoutes = require("./api/routes/billRoutes");
 
 mongoose.connect(
   "mongodb+srv://admin:admin@chompoodb-9oh30.mongodb.net/jpmDb?retryWrite=true&w=majority",
@@ -40,6 +41,8 @@ app.use("/announce", announceRoutes);
 app.use("/admin", adminRoutes);
 app.use("/service", serviceRoutes);
 app.use("/upload", uploadRoutes);
+app.use("/bill",billRoutes);
+
 
 app.use("/healty", (req, res, next) => {
   res.status(200).send("server is healty");

@@ -74,4 +74,5 @@ const uploadImageToStorage = file => {
     blobStream.end(file.buffer);
   });
 };
+
 module.exports = router;
