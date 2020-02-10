@@ -3,20 +3,27 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const adminCollection = require("../models/adminModels");
 
-router.post("/", (req, res, next) => {
-  var _id = new mongoose.Types.ObjectId();
-  var name = req.body.name;
-  var phone = req.body.phone;
+router.post("/", (req, res, next) => {var _id = new mongoose.Types.ObjectId();
+  var addFirstName = req.body.addFirstName;
+  var addLastName = req.body.addLastName;
+  var addPhone = req.body.addPhone;
+  var addUsername = req.body.addUsername;
+  var addPassword = req.body.addPassword;
   var adminData = new adminCollection({
     _id: _id,
-    name: name,
-    phone: phone,
-    
+    addFirstName: addFirstName,
+    addLastName: addLastName,
+    addPhone: addPhone,
+    addUsername: addUsername,
+    addPassword: addPassword
   });
 
   if (
-    name == undefined ||
-    phone == undefined
+    addFirstName == undefined ||
+    addLastName == undefined ||
+    addPhone == undefined ||
+    addUsername == undefined ||
+    addPassword == undefined
   ) {
     res.status(400).send("please defind all information");
   } else {
@@ -25,12 +32,12 @@ router.post("/", (req, res, next) => {
       .exec()
       .then(docs => {
         adminData.save();
-        res.status(200).send("Create User Successfully");
+        res.status(201).send("Create admin Successfully");
       });
   }
 });
 
-exports.saveMedia = (req, res) => {
+/* exports.saveMedia = (req, res) => {
         const storage = multer.diskStorage({
             destination: (req, file, callback) => {
                 callback(null, (config.const.path.base + config.const.path.productReviewMedia));
@@ -58,7 +65,7 @@ exports.saveMedia = (req, res) => {
             res.status(200).json(results);
         });
 }
-
+ */
 router.get("/", (req, res, next) => {
   var adminid = req.query.adminid;
   console.log(adminid);
@@ -82,14 +89,20 @@ router.get("/", (req, res, next) => {
 
 router.put("/:adminid", (req, res, next) => {
   var adminid = req.params.adminid;
-  var name = req.body.name;
-  var phone = req.body.phone;
+  var addFirstName = req.body.addFirstName;
+  var addLastName = req.body.addLastName;
+  var addPhone = req.body.addPhone;
+  var addUsername = req.body.addUsername;
+  var addPassword = req.body.addPassword;
   adminCollection.findOneAndUpdate(
     { _id: adminid },
     {
       $set: {
-        name: name,
-        phone: phone
+        addFirstName: addFirstName,
+        addLastName: addLastName,
+        addPhone: addPhone,
+        addUsername: addUsername,
+        addPassword: addPassword
       }
     },
     (err, docs) => {

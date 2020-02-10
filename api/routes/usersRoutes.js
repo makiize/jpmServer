@@ -8,19 +8,19 @@ router.post("/", (req, res, next) => {
   var firstName = req.body.firstName;
   var lastName = req.body.lastName;
   var house = req.body.house;
-  var car = req.body.car;
   var phone = req.body.phone;
   var username = req.body.username;
   var password = req.body.password;
+  var Email = req.body.Email;
   var userData = new userCollection({
     _id: _id,
     firstName: firstName,
     lastName: lastName,
     house: house,
     phone: phone,
-    car: car,
     username: username,
-    password: password
+    password: password,
+    Email : Email
   });
 
   if (
@@ -28,9 +28,9 @@ router.post("/", (req, res, next) => {
     lastName == undefined ||
     house == undefined ||
     phone == undefined ||
-    car == undefined ||
     username == undefined ||
-    password == undefined
+    password == undefined ||
+    Email == undefined
   ) {
     res.status(400).send("please defind all information");
   } else {
@@ -70,10 +70,10 @@ router.put("/:uid", (req, res, next) => {
   var firstName = req.body.firstName;
   var lastName = req.body.lastName;
   var house = req.body.house;
-  var car = req.body.car;
   var phone = req.body.phone;
   var username = req.body.username;
   var password = req.body.password;
+  var Email = req.body.Email;
   userCollection.findOneAndUpdate(
     { _id: uid },
     {
@@ -82,9 +82,9 @@ router.put("/:uid", (req, res, next) => {
         lastName: lastName,
         house: house,
         phone: phone,
-        car: car,
         username: username,
-        password: password
+        password: password,
+        Email: Email
       }
     },
     (err, docs) => {

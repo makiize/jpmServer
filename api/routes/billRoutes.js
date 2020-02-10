@@ -9,12 +9,14 @@ router.post("/", (req, res, next) => {
   var firstName = req.body.firstName;
   var lastName = req.body.lastName;
   var bill = req.body.bill;
+  var by = req.body.by;
   var billData = new billCollection({
     _id: _id,
     house: house,
     firstName: firstName,
     lastName: lastName,
     bill: bill,
+    by: by,
     date: Date.now()
       });
 
@@ -22,7 +24,8 @@ router.post("/", (req, res, next) => {
     house == undefined ||
     firstName == undefined ||
     lastName == undefined ||
-    bill == undefined
+    bill == undefined ||
+    by == undefined
   ) {
     res.status(400).send("please defind all bill");
   } else {
@@ -92,6 +95,7 @@ router.put("/:billid", (req, res, next) => {
   var firstName = req.body.firstName;
   var lastName = req.body.lastName;
   var bill = req.body.bill;
+  var by = req.body.by;
   billCollection.findOneAndUpdate(
     { _id: billid },
     {
@@ -99,7 +103,8 @@ router.put("/:billid", (req, res, next) => {
         house: house,
         firstName: firstName,
         lastName: lastName,
-        bill: bill
+        bill: bill,
+        by : by
       }
     },
     (err, docs) => {
