@@ -11,7 +11,7 @@ const uploadRoutes = require("./api/routes/uploadRoutes");
 const billRoutes = require("./api/routes/billRoutes");
 
 mongoose.connect(
-  "mongodb+srv://admin:admin@chompoodb-9oh30.mongodb.net/jpmDb?retryWrite=true&w=majority",
+  "mongodb://jpm-db/jpmDB",
   function(err) {
     if (err) throw err;
     console.log("conect to mongoDB Atlast Success Full");

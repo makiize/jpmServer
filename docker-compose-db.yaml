@@ -1,0 +1,14 @@
+version: '3.7'
+services:
+  db: 
+    container_name: jpm-db
+    image: mongo
+    volumes:
+      - jpm_db:/data/db
+    ports:
+      - '27017:27017'
+    environment:
+     - TZ=Asia/Bangkok
+    
+volumes:
+  jpm_db:
