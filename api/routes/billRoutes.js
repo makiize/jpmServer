@@ -6,19 +6,19 @@ const billCollection = require("../models/billModels");
 router.post("/", (req, res, next) => {
   var _id = new mongoose.Types.ObjectId();
   var house = req.body.house;
-  var Name = req.body.Name;
+  var bName = req.body.bName;
   var bill = req.body.bill;
   var billData = new billCollection({
     _id: _id,
     house: house,
-    Name: Name,
+    bName: Name,
     bill: bill,
     date: Date.now()
       });
 
   if (
     house == undefined ||
-    Name == undefined ||
+    bName == undefined ||
     bill == undefined 
   ) {
     res.status(400).send("please defind all bill");
