@@ -5,8 +5,7 @@ const userCollection = require("../models/usersModels");
 
 router.post("/", (req, res, next) => {
   var _id = new mongoose.Types.ObjectId();
-  var firstName = req.body.firstName;
-  var lastName = req.body.lastName;
+  var uName = req.body.uName;
   var house = req.body.house;
   var phone = req.body.phone;
   var username = req.body.username;
@@ -14,8 +13,7 @@ router.post("/", (req, res, next) => {
   var Email = req.body.Email;
   var userData = new userCollection({
     _id: _id,
-    firstName: firstName,
-    lastName: lastName,
+    uName: uName,
     house: house,
     phone: phone,
     username: username,
@@ -24,8 +22,7 @@ router.post("/", (req, res, next) => {
   });
 
   if (
-    firstName == undefined ||
-    lastName == undefined ||
+    uName == undefined ||
     house == undefined ||
     phone == undefined ||
     username == undefined ||
@@ -67,8 +64,7 @@ router.get("/", (req, res, next) => {
 
 router.put("/:uid", (req, res, next) => {
   var uid = req.params.uid;
-  var firstName = req.body.firstName;
-  var lastName = req.body.lastName;
+  var uName = req.body.uName;
   var house = req.body.house;
   var phone = req.body.phone;
   var username = req.body.username;
@@ -78,8 +74,7 @@ router.put("/:uid", (req, res, next) => {
     { _id: uid },
     {
       $set: {
-        firstName: firstName,
-        lastName: lastName,
+        uName: uName,
         house: house,
         phone: phone,
         username: username,

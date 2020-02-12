@@ -9,8 +9,8 @@ const adminRoutes = require("./api/routes/adminRoutes");
 const serviceRoutes = require("./api/routes/serviceRoutes");
 const uploadRoutes = require("./api/routes/uploadRoutes"); 
 const billRoutes = require("./api/routes/billRoutes");
-const dburl = 'jpm-db';
-// const dburl = '134.209.100.0:27017'
+// const dburl = 'jpm-db';
+const dburl = '134.209.100.0:27017'
 mongoose.connect(
   "mongodb://"+dburl+"/jpmDB",
   function(err) {
@@ -28,8 +28,8 @@ app.use((req, res, next) => {
     "Access-Control-Allow-Headers",
     "Origin,X-Requested-With,Content-Type,Accept,Authorization"
   );
-  res.header("Access-Control-Allow-Method", "PUT,POST,PATCH,DELETE,GET");
   if (req.method === "OPTIONS") {
+    res.header("Access-Control-Allow-Methods", "PUT,POST,PATCH,DELETE,GET");
     return res.status(200).json({});
   }
 

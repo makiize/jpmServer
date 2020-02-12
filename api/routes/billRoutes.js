@@ -6,26 +6,20 @@ const billCollection = require("../models/billModels");
 router.post("/", (req, res, next) => {
   var _id = new mongoose.Types.ObjectId();
   var house = req.body.house;
-  var firstName = req.body.firstName;
-  var lastName = req.body.lastName;
+  var Name = req.body.Name;
   var bill = req.body.bill;
-  var by = req.body.by;
   var billData = new billCollection({
     _id: _id,
     house: house,
-    firstName: firstName,
-    lastName: lastName,
+    Name: Name,
     bill: bill,
-    by: by,
     date: Date.now()
       });
 
   if (
     house == undefined ||
-    firstName == undefined ||
-    lastName == undefined ||
-    bill == undefined ||
-    by == undefined
+    Name == undefined ||
+    bill == undefined 
   ) {
     res.status(400).send("please defind all bill");
   } else {
@@ -38,35 +32,6 @@ router.post("/", (req, res, next) => {
       });
   }
 });
-/* 
-exports.saveMedia = (req, res) => {
-        const storage = multer.diskStorage({
-            destination: (req, file, callback) => {
-                callback(null, (config.const.path.base + config.const.path.productReviewMedia));
-            },
-            filename: (req, file, callback) => {
-                callback(null, Date.now() + '-' + file.originalname);
-            }
-        });
-
-        const upload = multer({storage: storage}).any('file');
-
-        upload(req, res, (err) => {
-            if (err) {
-                return res.status(400).send({
-                    message: helper.getErrorMessage(err)
-                });
-            }
-            let results = req.files.map((file) => {
-                return {
-                    mediaName: file.filename,
-                    origMediaName: file.originalname,
-                    mediaSource: 'http://' + req.headers.host + config.const.path.productReviewMedia + file.filename
-                }
-            });
-            res.status(200).json(results);
-        });
-} */
 
 router.get("/", (req, res, next) => {
   var billid = req.query.billid;
@@ -92,19 +57,16 @@ router.get("/", (req, res, next) => {
 router.put("/:billid", (req, res, next) => {
   var billid = req.params.billid;
   var house = req.body.house;
-  var firstName = req.body.firstName;
-  var lastName = req.body.lastName;
+  var bName = req.body.bName;
   var bill = req.body.bill;
-  var by = req.body.by;
   billCollection.findOneAndUpdate(
     { _id: billid },
     {
       $set: {
         house: house,
-        firstName: firstName,
+        bName: bName,
         lastName: lastName,
-        bill: bill,
-        by : by
+        bill: bill
       }
     },
     (err, docs) => {
