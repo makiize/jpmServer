@@ -11,7 +11,7 @@ router.post("/", (req, res, next) => {
   var billData = new billCollection({
     _id: _id,
     house: house,
-    bName: Name,
+    bName: bName,
     bill: bill,
     date: Date.now()
       });
