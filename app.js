@@ -9,8 +9,8 @@ const adminRoutes = require("./api/routes/adminRoutes");
 const serviceRoutes = require("./api/routes/serviceRoutes");
 const uploadRoutes = require("./api/routes/uploadRoutes"); 
 const billRoutes = require("./api/routes/billRoutes");
-// const dburl = 'jpm-db';
-const dburl = '134.209.100.0:27017'
+const dburl = 'jpm-db';
+// const dburl = '134.209.100.0:27017'
 mongoose.connect(
   "mongodb://"+dburl+"/jpmDB",
   function(err) {
