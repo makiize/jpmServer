@@ -2,8 +2,7 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var adminSchema = new Schema({
   _id: String,
-  addFirstName: String,
-  addLastName: String,
+  addName: String,
   addPhone: String,
   addEmail: String,
   addUsername: String,

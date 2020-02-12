@@ -4,23 +4,20 @@ const mongoose = require("mongoose");
 const adminCollection = require("../models/adminModels");
 
 router.post("/", (req, res, next) => {var _id = new mongoose.Types.ObjectId();
-  var addFirstName = req.body.addFirstName;
-  var addLastName = req.body.addLastName;
+  var addName = req.body.addName;
   var addPhone = req.body.addPhone;
   var addUsername = req.body.addUsername;
   var addPassword = req.body.addPassword;
   var adminData = new adminCollection({
     _id: _id,
-    addFirstName: addFirstName,
-    addLastName: addLastName,
+    addName: addName,
     addPhone: addPhone,
     addUsername: addUsername,
     addPassword: addPassword
   });
 
   if (
-    addFirstName == undefined ||
-    addLastName == undefined ||
+    addName == undefined ||
     addPhone == undefined ||
     addUsername == undefined ||
     addPassword == undefined
@@ -89,8 +86,7 @@ router.get("/", (req, res, next) => {
 
 router.put("/:adminid", (req, res, next) => {
   var adminid = req.params.adminid;
-  var addFirstName = req.body.addFirstName;
-  var addLastName = req.body.addLastName;
+  var addName = req.body.addName;
   var addPhone = req.body.addPhone;
   var addUsername = req.body.addUsername;
   var addPassword = req.body.addPassword;
@@ -98,8 +94,7 @@ router.put("/:adminid", (req, res, next) => {
     { _id: adminid },
     {
       $set: {
-        addFirstName: addFirstName,
-        addLastName: addLastName,
+        addName: addName,
         addPhone: addPhone,
         addUsername: addUsername,
         addPassword: addPassword
