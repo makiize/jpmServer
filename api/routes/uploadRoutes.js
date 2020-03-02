@@ -1,78 +1,141 @@
+const path = require("path"); //==========
+const crypto = require("crypto"); //===========
+const multer = require("multer"); //=================
+const GridFsStorage = require("multer-gridfs-storage"); //=============
+const Grid = require("gridfs-stream"); //====================
 const express = require("express");
 const router = express.Router();
-const { Storage } = require("@google-cloud/storage");
-const Multer = require("multer");
+const mongoose = require("mongoose");
+//=====================================================================================================
+const dburl = "mongodb://134.209.100.0:27017/jpmDB";
 
-const storage = new Storage({
-  projectId: "jpm-storage",
-  keyFilename:
-    "jpm-storage-firebase-adminsdk-t368w-28760fea2c.json"
+const conn = mongoose.createConnection(dburl);
+
+conn.once("open", () => {
+  // Init stream
+  gfs = Grid(conn.db, mongoose.mongo);
+  gfs.collection("uploads");
 });
+// Create storage engine
+const storage = new GridFsStorage({
+  url: dburl,
+  file: (req, file) => {
+    return new Promise((resolve, reject) => {
+      crypto.randomBytes(16, (err, buf) => {
+        if (err) {
+          return reject(err);
+        }
+        const filename = file.originalname;
+        console.log(file);
+        const fileInfo = {
+          filename: filename,
+          bucketName: "uploads"
+        };
 
-const bucket = storage.bucket("gs://jpm-storage.appspot.com");
-
-const multer = Multer({
-  storage: Multer.memoryStorage(),
-  limits: {
-    fileSize: 5 * 1024 * 1024 // no larger than 5mb, you can change as needed.
-  }
-});
-/**
- * Adding new file to the storage
- */
-router.post("/", multer.single("file"), (req, res) => {
-  console.log("Upload Image");
-
-  let file = req.file;
-  if (file) {
-    uploadImageToStorage(file)
-      .then(success => {
-        res.status(200).send({
-          status: "success",
-          url: success
-        });
-      })
-      .catch(error => {
-        res.status(400).send({
-          status: "error"
-        });
-        console.error(error);
+        resolve(fileInfo);
       });
+    });
   }
 });
 
-/**
- * Upload the image file to Google Storage
- * @param {File} file object that will be uploaded to Google Storage
- */
-const uploadImageToStorage = file => {
-  return new Promise((resolve, reject) => {
-    if (!file) {
-      reject("No image file");
+const upload = multer({ storage });
+
+router.get("/", (req, res) => {
+  gfs.files.find().toArray((err, files) => {
+    // Check if files
+    if (!files || files.length === 0) {
+      res.render("index", { files: false });
+    } else {
+      files.map(file => {
+        if (
+          file.contentType === "image/jpeg" ||
+          file.contentType === "image/png"
+        ) {
+          file.isImage = true;
+        } else {
+          file.isImage = false;
+        }
+      });
+      res.render("index", { files: files });
     }
-    let newFileName = `${file.originalname}_${Date.now()}`;
-
-    let fileUpload = bucket.file(newFileName);
-
-    const blobStream = fileUpload.createWriteStream({
-      metadata: {
-        contentType: file.mimetype
-      }
-    });
-
-    blobStream.on("error", error => {
-      reject(error);
-    });
-
-    blobStream.on("finish", () => {
-      // The public URL can be used to directly access the file via HTTP.
-      const url =  `https://storage.googleapis.com/${bucket.name}/${fileUpload.name}`
-      
-      resolve(url);
-    });
-
-    blobStream.end(file.buffer);
   });
-};
+});
+
+// @route POST /upload
+// @desc  Uploads file to DB
+router.post("/upload", upload.single("file"), (req, res) => {
+  // res.json({ file: req.file });
+  var img = req.file;
+  res.send(img);
+});
+
+// @route GET /files
+// @desc  Display all files in JSON
+router.get("/files", (req, res) => {
+  gfs.files.find().toArray((err, files) => {
+    // Check if files
+    if (!files || files.length === 0) {
+      return res.status(404).json({
+        err: "No files exist"
+      });
+    }
+
+    // Files exist
+    return res.json(files);
+  });
+});
+
+// @route GET /files/:filename
+// @desc  Display single file object
+router.get("/files/:filename", (req, res) => {
+  gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
+    // Check if file
+    if (!file || file.length === 0) {
+      return res.status(404).json({
+        err: "No file exists"
+      });
+    }
+    // File exists
+    return res.json(file);
+  });
+});
+
+// @route GET /image/:filename
+// @desc Display Image
+router.get("/image/:filename", (req, res) => {
+  gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
+    // Check if file
+    if (!file || file.length === 0) {
+      return res.status(404).json({
+        err: "No file exists"
+      });
+    }
+
+    // Check if image
+    if (file.contentType === "image/jpeg" || file.contentType === "image/png") {
+      // Read output to browser
+      const readstream = gfs.createReadStream(file.filename);
+      readstream.pipe(res);
+    } else {
+      res.status(404).json({
+        err: "Not an image"
+      });
+    }
+  });
+});
+
+// @route DELETE /files/:id
+// @desc  Delete file
+router.delete("/files/:id", (req, res) => {
+  gfs.remove({ _id: req.params.id, root: "uploads" }, (err, gridStore) => {
+    if (err) {
+      return res.status(404).json({ err: err });
+    }
+
+    res.redirect("/");
+  });
+});
 
 module.exports = router;
+
+//========================================================================================================

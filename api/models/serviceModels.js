@@ -8,7 +8,10 @@ var serviceSchema = new Schema({
   serDetail: String,
   status: String,
   serimg: String,
-  location: String,
+  location: {
+    lat : Number,
+    lon : Number
+  },
   serDate: Date
 });
 module.exports = mongoose.model("service", serviceSchema);

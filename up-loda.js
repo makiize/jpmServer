@@ -1,8 +1,8 @@
 const express = require('express');
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
 const path = require('path');
 const crypto = require('crypto');
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 const multer = require('multer');
 const GridFsStorage = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
@@ -16,10 +16,10 @@ app.use(methodOverride('_method'));
 app.set('view engine', 'ejs');
 
 // Mongo URI
-const mongoURI = 'mongodb://brad:brad@ds257838.mlab.com:57838/mongouploads';
+const dburl = '134.209.100.0:27017';
 
 // Create mongo connection
-const conn = mongoose.createConnection(mongoURI);
+const conn = mongoose.createConnection(dburl);
 
 // Init gfs
 let gfs;
@@ -32,7 +32,7 @@ conn.once('open', () => {
 
 // Create storage engine
 const storage = new GridFsStorage({
-  url: mongoURI,
+  url: dburl,
   file: (req, file) => {
     return new Promise((resolve, reject) => {
       crypto.randomBytes(16, (err, buf) => {

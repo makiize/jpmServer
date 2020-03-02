@@ -9,8 +9,9 @@ router.post("/", (req, res, next) => {
   var tool = req.body.tool;
   var serDetail = req.body.serDetail;
   var status = req.body.status;
+  var location = req.body.location;
   var by = req.body.by;
-
+  console.log(location)
   var serviceData = new serviceCollection({
     _id: _id,
     serTopic: serTopic,
@@ -18,6 +19,7 @@ router.post("/", (req, res, next) => {
     tool: tool,
     by: by,
     status: status,
+    location: location,
     serDate: Date.now()
   });
 
@@ -26,7 +28,8 @@ router.post("/", (req, res, next) => {
     serDetail == undefined ||
     tool == undefined ||
     by == undefined ||
-    status == undefined
+    status == undefined ||
+    location == undefined
   ) {
     res.status(400).send("please defind all service");
   } else {
@@ -68,6 +71,7 @@ router.put("/:serid", (req, res, next) => {
   var tool = req.body.tool;
   var status = req.body.status;
   var by = req.body.by;
+  var location = req.body.location;
   serviceCollection.findOneAndUpdate(
     { _id: serid },
     {
@@ -76,7 +80,8 @@ router.put("/:serid", (req, res, next) => {
         serDetail: serDetail,
         tool: tool,
         by: by,
-        status: status
+        status: status,
+        location: location,
       }
     },
     (err, docs) => {

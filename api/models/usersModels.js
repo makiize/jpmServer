@@ -7,6 +7,9 @@ var userSchema = new Schema({
   house: String,
   Email: String,
   username: String,
-  password: String
+  password: String,
+  password2: String
 });
-module.exports = mongoose.model("users", userSchema);
+
+const User = mongoose.model('users', userSchema);
+module.exports = User;

@@ -14,10 +14,7 @@ router.post("/", (req, res, next) => {
     date: Date.now()
   });
 
-  if (
-    topic == undefined ||
-    detail == undefined 
-  ) {
+  if (topic == undefined || detail == undefined) {
     res.status(400).send("please defind all announce");
   } else {
     announceCollection
@@ -25,7 +22,7 @@ router.post("/", (req, res, next) => {
       .exec()
       .then(docs => {
         announceData.save();
-        res.status(200).json({status: "Create announce Successfully"});
+        res.status(200).json({ status: "Create announce Successfully" });
       });
   }
 });
