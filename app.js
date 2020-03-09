@@ -61,7 +61,6 @@ app.use("/admin", adminRoutes);
 app.use("/service", serviceRoutes);
 app.use("/file", uploadRoutes);
 app.use("/bill",billRoutes);
-app.use('/',require('./api/routes/index'));
 
 app.use("/healty", (req, res, next) => {
   res.status(200).send("server is healty");
@@ -84,51 +83,5 @@ app.get('/',function(req,res){
     res.sendFile(path.join(__dirname, '/index.html'));
 });
 
-
-// const expressLayouts = require('express-ejs-layouts');
-// const passport = require('passport');
-// const flash = require('connect-flash');
-// const session = require('express-session');
-
-
-// // Passport Config
-// require('./config/passport')(passport);
-
-
-
-// // EJS
-// app.use(expressLayouts);
-// app.set('view engine', 'ejs');
-
-// // Express body parser
-// app.use(express.urlencoded({ extended: true }));
-
-// // Express session
-// app.use(
-//   session({
-//     secret: 'secret',
-//     resave: true,
-//     saveUninitialized: true
-//   })
-// );
-
-// // Passport middleware
-// app.use(passport.initialize());
-// app.use(passport.session());
-
-// // Connect flash
-// app.use(flash());
-
-// // Global variables
-// app.use(function(req, res, next) {
-//   res.locals.success_msg = req.flash('success_msg');
-//   res.locals.error_msg = req.flash('error_msg');
-//   res.locals.error = req.flash('error');
-//   next();
-// });
-
-// // Routes
-// app.use('/', require('./api/routes/index'));
-// app.use('/users', require('./api/routes/usersRoutes'));
 
 module.exports = app;
