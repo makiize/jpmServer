@@ -7,10 +7,12 @@ router.post("/", (req, res, next) => {
   var _id = new mongoose.Types.ObjectId();
   var topic = req.body.topic;
   var detail = req.body.detail;
+  var img =req.body.img
   var announceData = new announceCollection({
     _id: _id,
     topic: topic,
     detail: detail,
+    img: img,
     date: Date.now()
   });
 
@@ -52,12 +54,14 @@ router.put("/:annid", (req, res, next) => {
   var annid = req.params.annid;
   var topic = req.body.topic;
   var detail = req.body.detail;
+  var img = req.body.img;
   announceCollection.findOneAndUpdate(
     { _id: annid },
     {
       $set: {
         topic: topic,
-        detail: detail
+        detail: detail,
+        img: img
       }
     },
     (err, docs) => {
