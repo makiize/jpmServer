@@ -52,6 +52,7 @@ function showPosition(position) {
   document.getElementById("lon").innerHTML = position.coords.longitude
   var map=new google.maps.Map(document.getElementById("mapholder"),myOptions);
   var marker=new google.maps.Marker({position:latlon,map:map,title:"You are here!"});
+  console.log(position)
  
   
 }
@@ -59,7 +60,7 @@ function showPosition(position) {
 async function addtodatabase(){
   adService = {
     by:"00000",
-    serTopic: "1111",
+    serTopic: "halhfsahfoi;sajgsdjgkjdsr;ohjsd;ojhsdl;khjl;fgjh;fg",
     tool: "22222",
     serDetail: "detail",
     status: "status",
