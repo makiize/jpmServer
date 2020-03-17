@@ -18,7 +18,7 @@ router.post("/", (req, res, next) => {
     uName: uName,
     house: house,
     phone: phone,
-    Email : Email
+    email : email
   });
 
   if (
