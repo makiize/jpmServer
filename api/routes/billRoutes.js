@@ -5,19 +5,19 @@ const billCollection = require("../models/billModels");
 
 router.post("/", (req, res, next) => {
   var _id = new mongoose.Types.ObjectId();
-  var house = req.body.house;
+  var bHouse = req.body.bHouse;
   var bName = req.body.bName;
   var bill = req.body.bill;
   var billData = new billCollection({
     _id: _id,
-    house: house,
+    bHouse: bHouse,
     bName: bName,
     bill: bill,
     date: Date.now()
       });
 
   if (
-    house == undefined ||
+    bHouse == undefined ||
     bName == undefined ||
     bill == undefined 
   ) {
@@ -56,14 +56,14 @@ router.get("/", (req, res, next) => {
 
 router.put("/:billid", (req, res, next) => {
   var billid = req.params.billid;
-  var house = req.body.house;
+  var bHouse = req.body.bHouse;
   var bName = req.body.bName;
   var bill = req.body.bill;
   billCollection.findOneAndUpdate(
     { _id: billid },
     {
       $set: {
-        house: house,
+        bHouse: bHouse,
         bName: bName,
         lastName: lastName,
         bill: bill

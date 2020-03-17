@@ -11,7 +11,7 @@ router.post("/", (req, res, next) => {
   var status = req.body.status;
   var location = req.body.location;
   var by = req.body.by;
-  var serimg = req.body.serimg;
+  var serImg = req.body.serImg;
   console.log(location.lat,location.lon)
   var serviceData = new serviceCollection({
     _id: _id,
@@ -20,7 +20,7 @@ router.post("/", (req, res, next) => {
     tool: tool,
     by: by,
     status: status,
-    serimg: serimg,
+    serImg: serImg,
     location:location,
     serDate: Date.now()
   });
@@ -32,7 +32,7 @@ router.post("/", (req, res, next) => {
     by == undefined ||
     status == undefined ||
     location == undefined ||
-    serimg == undefined
+    serImg == undefined
   ) {
     res.status(400).send("please defind all service");
   } else {
@@ -75,7 +75,7 @@ router.put("/:serid", (req, res, next) => {
   var status = req.body.status;
   var by = req.body.by;
   var location = req.body.location;
-  var serimg = req.body.serimg;
+  var serImg = req.body.serImg;
   serviceCollection.findOneAndUpdate(
     { _id: serid },
     {
@@ -86,7 +86,7 @@ router.put("/:serid", (req, res, next) => {
         by: by,
         status: status,
         location: location,
-        serimg: serimg,
+        serImg: serImg,
       }
     },
     (err, docs) => {

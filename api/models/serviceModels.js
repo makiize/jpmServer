@@ -7,7 +7,7 @@ var serviceSchema = new Schema({
   tool: String,
   serDetail: String,
   status: String,
-  serimg: String,
+  serImg: String,
   location: {
     lat : Number,
     lon : Number
