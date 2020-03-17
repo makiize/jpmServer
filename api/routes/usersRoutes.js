@@ -3,27 +3,21 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const userCollection = require("../models/usersModels");
 
-router.get("/login",(req,res)=> res.render('login'));
+// router.get("/login",(req,res)=> res.render('login'));
 
-router.get("/register",(req,res)=> res.render('register'));
+// router.get("/register",(req,res)=> res.render('register'));
 
 router.post("/", (req, res, next) => {
   var _id = new mongoose.Types.ObjectId();
   var uName = req.body.uName;
   var house = req.body.house;
   var phone = req.body.phone;
-  var username = req.body.username;
-  var password = req.body.password;
-  var password2 = req.body.password2;
-  var Email = req.body.Email;
+  var email = req.body.email;
   var userData = new userCollection({
     _id: _id,
     uName: uName,
     house: house,
     phone: phone,
-    username: username,
-    password: password,
-    password2: password2,
     Email : Email
   });
 
@@ -31,10 +25,7 @@ router.post("/", (req, res, next) => {
     uName == undefined ||
     house == undefined ||
     phone == undefined ||
-    username == undefined ||
-    password == undefined ||
-    password2 == undefined ||
-    Email == undefined
+    email == undefined
   ) {
     res.status(400).send("please defind all information");
   } else {
@@ -48,13 +39,13 @@ router.post("/", (req, res, next) => {
   }
 });
 //===================
-router.get('/register', (req, res) => {
-res.render('signup');
-});
+// router.get('/register', (req, res) => {
+// res.render('signup');
+// });
 
-router.get('/login', (req, res) => {
-res.render('login');
-});
+// router.get('/login', (req, res) => {
+// res.render('login');
+// });
 //=========================
 router.get("/", (req, res, next) => {
   var uid = req.query.uid;
@@ -82,10 +73,7 @@ router.put("/:uid", (req, res, next) => {
   var uName = req.body.uName;
   var house = req.body.house;
   var phone = req.body.phone;
-  var username = req.body.username;
-  var password = req.body.password;
-  var password2 = req.body.password2;
-  var Email = req.body.Email;
+  var email = req.body.email;
   userCollection.findOneAndUpdate(
     { _id: uid },
     {
@@ -93,10 +81,7 @@ router.put("/:uid", (req, res, next) => {
         uName: uName,
         house: house,
         phone: phone,
-        username: username,
-        password: password,
-        password2: password2,
-        Email: Email
+        email: email
       }
     },
     (err, docs) => {
