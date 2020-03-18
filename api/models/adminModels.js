@@ -6,6 +6,7 @@ var adminSchema = new Schema({
   addPhone: String,
   addEmail: String,
   addUsername: String,
-  addPassword: String
+  addPassword: String,
+  reTypePassword: String
 });
 module.exports = mongoose.model("admin", adminSchema);
