@@ -35,18 +35,19 @@ router.get("/", (req, res, next) => {
   if (annid == undefined) {
     announceCollection
       .find()
+      .sort({ _id: -1})
       .exec()
       .then(docs => {
         res.status(200).send(docs);
       });
   } else {
-    announceCollection.find({ _id: annid }, (err, docs) => {
+    announceCollection.find({ _id: annid }),(err,docs) => {
       if (docs == null || docs == "") {
         res.status(404).send("announce not fond");
       } else {
         res.status(200).send(docs);
       }
-    });
+    };
   }
 });
 

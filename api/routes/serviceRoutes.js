@@ -52,6 +52,7 @@ router.get("/", (req, res, next) => {
   if (serid == undefined) {
     serviceCollection
       .find()
+      .sort({ _id: -1})
       .exec()
       .then(docs => {
         res.status(200).send(docs);

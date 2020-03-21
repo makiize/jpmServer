@@ -3,29 +3,28 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const userCollection = require("../models/usersModels");
 
-// router.get("/login",(req,res)=> res.render('login'));
-
-// router.get("/register",(req,res)=> res.render('register'));
-
 router.post("/", (req, res, next) => {
   var _id = new mongoose.Types.ObjectId();
   var uName = req.body.uName;
   var house = req.body.house;
   var phone = req.body.phone;
   var email = req.body.email;
+  var firebaseId = req.body.firebaseId;
   var userData = new userCollection({
     _id: _id,
     uName: uName,
     house: house,
     phone: phone,
-    email : email
+    email : email,
+    firebaseId: firebaseId
   });
 
   if (
     uName == undefined ||
     house == undefined ||
     phone == undefined ||
-    email == undefined
+    email == undefined ||
+    firebaseId == undefined
   ) {
     res.status(400).send("please defind all information");
   } else {
@@ -38,15 +37,7 @@ router.post("/", (req, res, next) => {
       });
   }
 });
-//===================
-// router.get('/register', (req, res) => {
-// res.render('signup');
-// });
 
-// router.get('/login', (req, res) => {
-// res.render('login');
-// });
-//=========================
 router.get("/", (req, res, next) => {
   var uid = req.query.uid;
   console.log(uid);
@@ -58,11 +49,11 @@ router.get("/", (req, res, next) => {
         res.status(200).send(docs);
       });
   } else {
-    userCollection.find({ _id: uid }, (err, docs) => {
+    userCollection.find({ firebaseId: uid }, (err, docs) => {
       if (docs == null || docs == "") {
         res.status(404).send("user not fond");
       } else {
-        res.status(200).send(docs);
+        res.status(200).send(docs[0]);
       }
     });
   }
